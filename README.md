@@ -9,7 +9,7 @@
 
 Use images with Eloquent models in Laravel. This package provides a simple way to attach images to Eloquent models to use in your web applications.
 
-> This package is inspired by [spatie/laravel-medialibrary].
+> This package is inspired by [spatie/laravel-medialibrary](https://github.com/spatie/laravel-medialibrary).
 
 ## Installation
 
