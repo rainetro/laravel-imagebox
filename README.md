@@ -26,7 +26,7 @@ php artisan artisan vendor:publish --provider="Rainet\ImageBox\ImageBoxServicePr
 php artisan migrate
 ```
 
-You can publish the config file with:
+You can (optionally) publish the config file with:
 
 ```bash
 php artisan vendor:publish --provider="Rainet\ImageBox\ImageBoxServiceProvider" --tag="config"
@@ -49,7 +49,10 @@ return [
 
 ### Attach images to your models
 
-Add the `ImageBoxTrait` trait to the model you want to attach images to.
+Ensure that your model implements the `ImageBoxInterface`.
+Add the `ImageBoxTrait` trait to the model.
+Implement the `registerImageCollections()` method. This method is used to define the image collections for your model. You can define one or more image collections by chaining the addImageCollection() method.
+Implement the `registerImageCollectionConversions()` method. This method is used to define the conversions for your image collections. Inside this method, you can chain the addConversion() method to add conversions to a specific image collection.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
