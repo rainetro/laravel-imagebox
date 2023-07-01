@@ -73,9 +73,9 @@ trait ImageBoxTrait
         return app(FileAdder::class)->createFromPath($this, $path);
     }
 
-    public function addFromURL(string $url): FileAdder
+    public function addFromUrl(string $url): FileAdder
     {
-        return app(FileAdder::class)->createFromURL($this, $url);
+        return app(FileAdder::class)->createFromUrl($this, $url);
     }
 
     public function addFromBase64(string $content): FileAdder
@@ -102,9 +102,9 @@ trait ImageBoxTrait
         return collect($this->imageCollections);
     }
 
-    public function getImageURL(string $collectionName = 'default'): string
+    public function getImageUrl(string $collectionName = 'default'): string
     {
-        return $this->imageCollections[$collectionName]->getImageURL($this);
+        return $this->imageCollections[$collectionName]->getImageUrl($this);
     }
 
     public function getFallbackMediaUrl(string $collectionName = 'default', string $conversionName = ''): string

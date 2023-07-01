@@ -39,13 +39,13 @@ class FileAdder
             ->setFilePath($path);
     }
 
-    public static function createFromURL(Model $model, string $url): self
+    public static function createFromUrl(Model $model, string $url): self
     {
         $fileAdder = new static();
 
         return $fileAdder
             ->setModel($model)
-            ->setFileURL($url);
+            ->setFileUrl($url);
     }
 
     public static function createFromBase64(Model $model, string $content): self
@@ -89,7 +89,7 @@ class FileAdder
         return $this;
     }
 
-    public function setFileURL(string $url): self
+    public function setFileUrl(string $url): self
     {
         $tmpFile = tempnam(sys_get_temp_dir(), 'imagebox_');
 
