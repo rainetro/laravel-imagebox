@@ -52,6 +52,8 @@ trait ImageBoxTrait
 
     public function getImageCollection(string $name): ImageCollection
     {
+        $this->registerImageCollections();
+
         return $this->imageCollections[$name];
     }
 
@@ -104,6 +106,13 @@ trait ImageBoxTrait
         $this->registerImageCollections();
 
         return collect($this->imageCollections);
+    }
+
+    public function getRegisteredImageCollectionConversions(): Collection
+    {
+        $this->registerImageCollectionConversions();
+
+        return collect($this->imageConversions);
     }
 
     public function getImageUrl(string $collectionName = 'default', string $conversionName = ''): string
