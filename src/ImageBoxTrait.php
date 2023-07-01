@@ -91,6 +91,11 @@ trait ImageBoxTrait
 
     public function hasImage(string $collectionName = 'default', array $filters = []): bool
     {
+        if ($this->image) {
+
+            return true;
+        }
+
         return false;   //  TODO: Implement hasImage() method.
     }
 
