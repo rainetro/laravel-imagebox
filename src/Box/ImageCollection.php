@@ -3,6 +3,7 @@
 namespace Rainet\ImageBox\Box;
 
 use Illuminate\Support\Traits\Macroable;
+use InvalidArgumentException;
 
 class ImageCollection
 {
@@ -15,7 +16,18 @@ class ImageCollection
 
     public array $acceptsMimeTypes = [];
 
+    /** @var bool|int */
+    public $collectionSizeLimit = false;
+
     public array $conversions = [];
+
+    public bool $singleFile = false;
+
+    /** @var array<string, string> */
+    public array $fallbackUrls = [];
+
+    /** @var array<string, string> */
+    public array $fallbackPaths = [];
 
     public function __construct(
         public string $name,
@@ -41,9 +53,35 @@ class ImageCollection
         return $this->disk ?: config('imagebox.disk');
     }
 
+    public function acceptsFile(callable $acceptsFile): self
+    {
+        $this->acceptsFile = $acceptsFile;
+
+        return $this;
+    }
+
     public function acceptsMimeTypes(array $mimeTypes): self
     {
         $this->acceptsMimeTypes = $mimeTypes;
+
+        return $this;
+    }
+
+    public function singleFile(): self
+    {
+        return $this->onlyKeepLatest(1);
+    }
+
+    public function onlyKeepLatest(int $maximumNumberOfItemsInCollection): self
+    {
+        if ($maximumNumberOfItemsInCollection < 1) {
+
+            throw new InvalidArgumentException('Maximum number of items in collection must be at least 1.');
+        }
+
+        $this->singleFile = ($maximumNumberOfItemsInCollection === 1);
+
+        $this->collectionSizeLimit = $maximumNumberOfItemsInCollection;
 
         return $this;
     }
@@ -55,5 +93,23 @@ class ImageCollection
         $this->conversions[] = $conversion;
 
         return $conversion;
+    }
+
+    public function useFallbackUrl(string $url, string $conversionName = ''): self
+    {
+        $conversionName = $conversionName ?: 'default';
+
+        $this->fallbackUrls[$conversionName] = $url;
+
+        return $this;
+    }
+
+    public function useFallbackPath(string $path, string $conversionName = ''): self
+    {
+        $conversionName = $conversionName ?: 'default';
+
+        $this->fallbackPaths[$conversionName] = $path;
+
+        return $this;
     }
 }

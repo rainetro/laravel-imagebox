@@ -2,17 +2,22 @@
 
 namespace Rainet\ImageBox;
 
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Rainet\ImageBox\Box\FileAdder;
 use Rainet\ImageBox\Box\ImageCollection;
 use Rainet\ImageBox\Box\ImageConversion;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Rainet\ImageBox\Box\Models\Image;
 
 trait ImageBoxTrait
 {
     /** @var \Rainet\ImageBox\Box\ImageCollection[] */
     public array $imageCollections = [];
+
+    /** @var \Rainet\ImageBox\Box\ImageConversion[] */
+    public array $imageConversions = [];
 
     public function image(): MorphOne
     {
@@ -83,5 +88,46 @@ trait ImageBoxTrait
         return [
             'conversions' => array_map(fn (ImageConversion $conversion) => $conversion->toArray(), $this->imageCollections[$collectionName]->conversions),
         ];
+    }
+
+    public function hasImage(string $collectionName = 'default', array $filters = []): bool
+    {
+        return false;   //  TODO: Implement hasImage() method.
+    }
+
+    public function getRegisteredImageCollections(): Collection
+    {
+        $this->registerImageCollections();
+
+        return collect($this->imageCollections);
+    }
+
+    public function getImageURL(string $collectionName = 'default'): string
+    {
+        return $this->imageCollections[$collectionName]->getImageURL($this);
+    }
+
+    public function getFallbackMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
+    {
+        $fallbackUrls = optional($this->getImageCollection($collectionName))->fallbackUrls;
+
+        if (in_array($conversionName, ['default', ''], true)) {
+
+            return $fallbackUrls[$conversionName] ?? '';
+        }
+
+        return $fallbackUrls[$conversionName] ?? $fallbackUrls['default'] ?? '';
+    }
+
+    public function getFallbackMediaPath(string $collectionName = 'default', string $conversionName = ''): string
+    {
+        $fallbackPaths = optional($this->getImageCollection($collectionName))->fallbackPaths;
+
+        if (in_array($conversionName, ['default', ''], true)) {
+
+            return $fallbackPaths[$conversionName] ?? '';
+        }
+
+        return $fallbackPaths[$conversionName] ?? $fallbackPaths['default'] ?? '';
     }
 }
