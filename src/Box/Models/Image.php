@@ -7,7 +7,6 @@ use Rainet\ImageBox\Box\Models\Concerns\HasUuid;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Rainet\ImageBox\Box\Models\Concerns\IsSorted;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Support\Facades\Storage;
 use Rainet\ImageBox\Box\FolderGenerator\FolderGeneratorFactory;
 
 class Image extends Model
@@ -37,6 +36,29 @@ class Image extends Model
     protected function extension(): Attribute
     {
         return Attribute::get(fn () => pathinfo($this->file_name, PATHINFO_EXTENSION));
+    }
+
+    public function getImageUrl(string $conversionName = ''): string
+    {
+        $folder = $this->getFolderPath();
+
+        $file_name = pathinfo($this->file_name, PATHINFO_FILENAME);
+        $file_ext = pathinfo($this->file_name, PATHINFO_EXTENSION);
+
+        $conversionName = $conversionName ?: 'default';
+
+        if (count($this->options['conversions'] ?? []) > 0) {
+
+            foreach ($this->options['conversions'] as $conversion) {
+
+                if ($conversion['name'] == $conversionName && $conversion['executed'] ?? NULL) {
+
+                    return url('storage/' . $folder . '/' . $file_name . '-' . $conversionName . '.' . $file_ext);
+                }
+            }
+        }
+
+        return url('storage/' . $folder . '/' . $this->file_name);
     }
 
     public function getFolderPath(): ?string

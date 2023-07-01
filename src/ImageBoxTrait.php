@@ -9,7 +9,6 @@ use Rainet\ImageBox\Box\ImageCollection;
 use Rainet\ImageBox\Box\ImageConversion;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Rainet\ImageBox\Box\Models\Image;
 
 trait ImageBoxTrait
 {
@@ -106,9 +105,7 @@ trait ImageBoxTrait
     {
         if ($this->image) {
 
-            //return $this->image->getUrl($collectionName, $conversionName);
-
-            return $this->image->url;   //  TODO: Implement getImageUrl() method.
+            return $this->image->getImageUrl($conversionName);
         }
 
         return $this->getFallbackMediaUrl($collectionName, $conversionName);
