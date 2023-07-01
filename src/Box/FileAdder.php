@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Rainet\ImageBox\Box\Models\Image;
 use \Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
+use Rainet\ImageBox\Box\Exceptions\FileUnacceptableForCollection;
 use Rainet\ImageBox\Box\Jobs\ProcessConversionsJob;
 
 /**
@@ -125,6 +126,11 @@ class FileAdder
 
         /** @var ImageCollection $imageCollection */
         $imageCollection = $this->model->getImageCollection($collectionName);
+
+        if (!empty($imageCollection->acceptsMimeTypes) && !in_array($this->uploadedFile->getMimeType(), $imageCollection->acceptsMimeTypes)) {
+
+            throw FileUnacceptableForCollection::create($this->uploadedFile, $imageCollection);
+        }
 
         $imageClass = config('image-box.model');
 
