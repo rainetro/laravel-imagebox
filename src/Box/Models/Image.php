@@ -38,7 +38,7 @@ class Image extends Model
         return Attribute::get(fn () => pathinfo($this->file_name, PATHINFO_EXTENSION));
     }
 
-    public function getImageUrl(string $conversionName = ''): string
+    public function getUrl(string $conversionName = ''): string
     {
         $folder = $this->getFolderPath();
 

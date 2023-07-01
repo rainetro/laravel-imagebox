@@ -119,7 +119,7 @@ trait ImageBoxTrait
     {
         if ($this->image) {
 
-            return $this->image->getImageUrl($conversionName);
+            return $this->image->getUrl($conversionName);
         }
 
         return $this->getFallbackMediaUrl($collectionName, $conversionName);
