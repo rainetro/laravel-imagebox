@@ -102,9 +102,16 @@ trait ImageBoxTrait
         return collect($this->imageCollections);
     }
 
-    public function getImageUrl(string $collectionName = 'default'): string
+    public function getImageUrl(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->imageCollections[$collectionName]->getImageUrl($this);
+        if ($this->image) {
+
+            //return $this->image->getUrl($collectionName, $conversionName);
+
+            return $this->image->url;   //  TODO: Implement getImageUrl() method.
+        }
+
+        return $this->getFallbackMediaUrl($collectionName, $conversionName);
     }
 
     public function getFallbackMediaUrl(string $collectionName = 'default', string $conversionName = ''): string

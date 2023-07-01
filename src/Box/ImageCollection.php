@@ -3,7 +3,6 @@
 namespace Rainet\ImageBox\Box;
 
 use InvalidArgumentException;
-use Rainet\ImageBox\Box\Models\Image;
 use Illuminate\Support\Traits\Macroable;
 
 class ImageCollection
@@ -112,15 +111,5 @@ class ImageCollection
         $this->fallbackPaths[$conversionName] = $path;
 
         return $this;
-    }
-
-    public function getImageUrl(Image $model): string
-    {
-        if (!$model->image) {
-
-            return $this->getFallbackMediaUrl();
-        }
-
-        return $model->image->url;
     }
 }
