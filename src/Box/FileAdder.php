@@ -3,13 +3,13 @@
 namespace Rainet\ImageBox\Box;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\RequestOptions;
-use Illuminate\Database\Eloquent\Model;
-use Rainet\ImageBox\Box\Models\Image;
-use \Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
-use Rainet\ImageBox\Box\Exceptions\FileUnacceptableForCollection;
+use GuzzleHttp\RequestOptions;
+use \Illuminate\Http\UploadedFile;
+use Rainet\ImageBox\Box\Models\Image;
+use Illuminate\Database\Eloquent\Model;
 use Rainet\ImageBox\Box\Jobs\ProcessConversionsJob;
+use Rainet\ImageBox\Box\Exceptions\FileUnacceptableForCollection;
 
 /**
  * @property \Rainet\ImageBox\Box\ImageBoxTrait $model

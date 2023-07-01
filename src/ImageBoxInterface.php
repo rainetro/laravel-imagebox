@@ -2,10 +2,10 @@
 
 namespace Rainet\ImageBox;
 
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Http\UploadedFile;
 use Rainet\ImageBox\Box\FileAdder;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 interface ImageBoxInterface
 {
