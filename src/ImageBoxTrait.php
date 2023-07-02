@@ -52,7 +52,10 @@ trait ImageBoxTrait
 
     public function getImageCollection(string $name): ImageCollection
     {
-        $this->registerImageCollections();
+        if (!$this->imageCollections) {
+
+            $this->registerImageCollections();
+        }
 
         return $this->imageCollections[$name];
     }
